@@ -1,0 +1,39 @@
+{
+    "name": "historion",
+    "preductname": "Historion Launcher",
+    "version": "3.0.0",
+    "description": "Launcher de Historion PvP Faction moddé",
+    "main": "src/app.js",
+    "author": "Boulldogo/Riptiaz",
+    "settings": "https://cthulhumc.com/dev",
+    "engines": {
+        "node": "16.x.x"
+    },
+    "scripts": {
+        "start": "cross-env-shell NODE_ENV=dev electron .",
+        "build": "node build.js",
+        "dev": "nodemon --exec npm start"
+    },
+    "license": "CC0",
+    "nodemonConfig": {
+        "ext": "js,html,css"
+    },
+    "dependencies": {
+        "discord-rpc": "^4.0.1",
+        "electron-updater": "^5.0.1",
+        "https": "^1.0.0",
+        "minecraft-java-core": "^3.6.2",
+        "node-fetch": "^2.6.7",
+        "xml-js": "^1.6.11"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "electron": "^19.0.7",
+        "electron-builder": "^23.0.3",
+        "nodemon": "^2.0.16"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/faqperez/CthulhuMC-Launcher.git"
+    }
+}

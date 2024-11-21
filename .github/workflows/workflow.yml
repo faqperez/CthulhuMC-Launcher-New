@@ -1,8 +1,11 @@
 name: Launcher Build
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   create-release:
@@ -14,6 +17,16 @@ jobs:
       - name: Get version
         run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
       
+      - name: Determine if prerelease
+        run: echo "IS_PRERELEASE=$(echo ${{ env.version }} | grep -Eq '(beta|alpha)' && echo true || echo false)" >> $GITHUB_ENV
+      
+      - name: Create Git Tag
+        run: |
+          git tag ${{ env.version }}
+          git push origin ${{ env.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -23,7 +36,7 @@ jobs:
           tag_name: ${{ env.version }}
           release_name: release ${{ env.version }}
           draft: false
-          prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
+          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
 
   build-launcher:
     needs: create-release
@@ -53,6 +66,6 @@ jobs:
 
       - name: Build
         env:
-          GH_TOKEN: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build
         shell: bash

@@ -9,7 +9,6 @@ body {
     left: 9%;
     height: 100%;
     flex-direction: column;
-    background: #00000080;
     display: flex;
     justify-content: flex-start;
 }
@@ -19,7 +18,6 @@ body {
     bottom: 0;
     width: 8.5%;
     height: 100%;
-    background: #00000080;
     display: flex;
 }
 

@@ -20,11 +20,32 @@ class Login {
         if (this.config.online) this.getOnline()
         else this.getOffline()
     }
+    async refreshData() {
 
+        document.querySelector('.player-role').innerHTML = '';
+        document.querySelector('.player-monnaie').innerHTML = '';
+        
+        await this.initOthers();
+        await this.initPreviewSkin();
+    }
+    async initPreviewSkin() {
+        console.log('initPreviewSkin called');
+        const websiteUrl = this.config.azauth;
+        let uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        let account = (await this.database.get(uuid.selected, 'accounts')).value;
+    
+        let title = document.querySelector('.player-skin-title');
+        title.innerHTML = `Skin de ${account.name}`;
+    
+        const skin = document.querySelector('.skin-renderer-settings');
+        const cacheBuster = new Date().getTime();
+        const url = `${websiteUrl}/skin3d/3d-api/skin-api/${account.name}?_=${cacheBuster}`;
+        skin.src = url;
+    }
     getOnline() {
         // console.log(`Initializing microsoft Panel...`)
         // console.log(`Initializing mojang Panel...`)
-        console.log(`Initializing Az Panel...`)
+        console.log(`Inicializando el Panel Az...`)
         this.loginMicrosoft();
         this.loginMojang();
         document.querySelector('.cancel-login').addEventListener("click", () => {
@@ -34,9 +55,9 @@ class Login {
     }
 
     getOffline() {
-        console.log(`Initializing microsoft Panel...`)
-        console.log(`Initializing mojang Panel...`)
-        console.log(`Initializing offline Panel...`)
+        console.log(`Inicializando el panel de Microsoft...`)
+        console.log(`Inicializando el Panel mojang...`)
+        console.log(`Inicializando el Panel fuera de línea...`)
         this.loginMicrosoft();
         this.loginOffline();
         document.querySelector('.cancel-login').addEventListener("click", () => {
@@ -81,8 +102,8 @@ class Login {
 
                 let profile = {
                     uuid: account_connect.uuid,
-                    skins: account_connect.profile.skins || [],
-                    capes: account_connect.profile.capes || []
+                    /*skins: account_connect.profile.skins || [],
+                    capes: account_connect.profile.capes || []*/
                 }
 
                 this.database.add(account, 'accounts')
@@ -123,12 +144,12 @@ class Login {
         let azauth = this.config.azauth
         let newuserurl = `${azauth}/user/register`
         this.newuser = document.querySelector(".new-user");
-        this.newuser.innerHTML="Pas de compte ?"
+        this.newuser.innerHTML="¿Sin cuenta? Registrate..."
         this.newuser.setAttribute ("href", newuserurl)
 
         let passwordreseturl = `${azauth}/user/password/reset`
         this.passwordreset = document.querySelector(".password-reset");
-        this.passwordreset.innerHTML="Mot de passe oublié ?"
+        this.passwordreset.innerHTML="¿Olvidaste tu contraseña?"
         this.passwordreset.setAttribute ("href", passwordreseturl)
 
         mojangBtn.addEventListener("click", () => {
@@ -157,7 +178,7 @@ class Login {
 
         loginBtn2f.addEventListener("click", async() => {
          if (a2finput.value == "") {
-                infoLogin2f.innerHTML = "Entrez votre code A2F"
+                infoLogin2f.innerHTML = "Introduce tu código A2F"
                 return
             }
             let azAuth = new AZauth(azauth);
@@ -165,7 +186,7 @@ class Login {
             await azAuth.login(mailInput.value, passwordInput.value, a2finput.value).then(async account_connect => {
                 console.log(account_connect);
                 if (account_connect.error) {
-                    infoLogin2f.innerHTML = 'Votre code A2F est invalide'
+                    infoLogin2f.innerHTML = 'Su código A2F no es válido'
                     return
                 }
                 let account = {
@@ -214,12 +235,12 @@ class Login {
             loginBtn.disabled = true;
             mailInput.disabled = true;
             passwordInput.disabled = true;
-            infoLogin.innerHTML = "Connexion en cours...";
+            infoLogin.innerHTML = "Conexión en progreso...";
 
 
             if (mailInput.value == "") {
                 console.log(mailInput.value);
-                infoLogin.innerHTML = "Entrez votre pseudo"
+                infoLogin.innerHTML = "Introduce tu usuario"
                 cancelMojangBtn.disabled = false;
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
@@ -228,7 +249,7 @@ class Login {
             }
 
             if (passwordInput.value == "") {
-                infoLogin.innerHTML = "Entrez votre mot de passe"
+                infoLogin.innerHTML = "Introduce tu contraseña"
                 cancelMojangBtn.disabled = false;
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
@@ -253,7 +274,7 @@ class Login {
                     loginBtn.disabled = false;
                     mailInput.disabled = false;
                     passwordInput.disabled = false;
-                    infoLogin.innerHTML = 'Votre compte est banni. <br>Merci de vous rendre sur notre discord pour toute contestation.'
+                    infoLogin.innerHTML = 'Tu cuenta está prohibida. <br>Vaya a nuestro discord para cualquier disputa.'
                     return
                 }
                 
@@ -306,7 +327,7 @@ class Login {
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
                 passwordInput.disabled = false;
-                infoLogin.innerHTML = 'Adresse E-mail/Pseudo ou mot de passe invalide'
+                infoLogin.innerHTML = 'E-mail/usuario o contraseña no válidos'
             })
         })
     }
@@ -336,11 +357,11 @@ class Login {
             loginBtn.disabled = true;
             mailInput.disabled = true;
             passwordInput.disabled = true;
-            infoLogin.innerHTML = "Connexion en cours...";
+            infoLogin.innerHTML = "Conexión en progreso...";
 
 
             if (mailInput.value == "") {
-                infoLogin.innerHTML = "Entrez votre adresse email / Nom d'utilisateur"
+                infoLogin.innerHTML = "Ingrese su correo electrónico / nombre de usuario"
                 cancelMojangBtn.disabled = false;
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
@@ -349,7 +370,7 @@ class Login {
             }
 
             if (mailInput.value.length < 3) {
-                infoLogin.innerHTML = "Votre nom d'utilisateur doit avoir au moins 3 caractères"
+                infoLogin.innerHTML = "Su nombre de usuario debe tener al menos 3 caracteres"
                 cancelMojangBtn.disabled = false;
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
@@ -391,7 +412,7 @@ class Login {
                 loginBtn.disabled = false;
                 mailInput.disabled = false;
                 passwordInput.disabled = false;
-                infoLogin.innerHTML = 'Adresse E-mail ou mot de passe invalide.'
+                infoLogin.innerHTML = 'Dirección de correo electrónico o contraseña no válida.'
             })
         })
     }

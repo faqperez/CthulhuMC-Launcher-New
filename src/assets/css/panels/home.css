@@ -3,7 +3,6 @@
     bottom: 0;
     width: 8.5%;
     height: 100%;
-    background: #00000080;
     display: flex;
 }
 
@@ -236,6 +235,7 @@
     width: 50%;
     margin-left: 110px;
     top: 250px;
+    left: 20px;
     height: 60%;
 }
 
@@ -244,6 +244,9 @@
 }
 
 .news-block {
+    position: relative;
+    top: 0px;
+    left: 0px;
     margin-bottom: 1rem;
     transition: opacity 1s;
     opacity: .8;
@@ -361,16 +364,17 @@
 }
 
 .info-list {
-    position: fixed;
-    right: 85px;
+    position: relative;
+    right: -150px;
+    width: 45vh;
+    padding-left: 1rem;
     background: none;
 }
 
 .server {
     position: relative;
-    width: 80%;
+    width: 110%;
     height: 75px;
-    left: 32.5%;
     background-color: #292929;
     border-radius: 10px;
     transition: opacity 1s;
@@ -443,7 +447,7 @@
     font: normal normal bold 35px/50px Poppins;
     color: #E1E1E1;
     top: 80px;
-    left: 270px;
+    left: 20%;
     transition: color .2s;
 }
 
@@ -513,10 +517,11 @@
 }
 
 .img {
-    position: relative;
+    position: absolute;
     width: 80%;
     margin-top: 10px;
-    right: -150px;
+    right: -50px;
+    bottom: 200px;
     background-color: #292929;
     border-radius: 10px;
     transition: opacity 1s;
@@ -574,7 +579,7 @@
 }
 
 .text {
-    position: absolute;
+    position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

@@ -9,7 +9,7 @@ body:
       Un grand merci d'avance pour votre aide. Néanmoins, nous avons besoin d'un certain nombre d'informations, pour nous aider.
   - type: checkboxes
     attributes:
-      label: "Liste des vérifications à faire avant de valider l'ouverture du signalement de bug"
+      label: "Liste des Verificacións à faire avant de valider l'ouverture du signalement de bug"
       description: Assurez que vous avez complété ce qui suit, dans le cas contraire, votre rapport peut être refusé
       options:
         - label: J'ai réussi à reproduire le bug sur le Selvania Launcher (sans mes modifications)

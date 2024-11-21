@@ -22,8 +22,51 @@ class Settings {
         this.initLauncherSettings();
         this.updateModsConfig();
         this.initOptionalMods();
-    }
 
+        document.getElementById('uploadSkinButton').addEventListener('click', async () => {
+            await this.selectFile();
+        });
+    }
+    async refreshData() {
+
+        document.querySelector('.player-role').innerHTML = '';
+        document.querySelector('.player-monnaie').innerHTML = '';
+        await this.initOthers();
+        await this.initPreviewSkin();
+        await this.headplayer();
+        await this.updateAccountImage();
+    }
+    async headplayer() {
+        const uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        const account = (await this.database.get(uuid.selected, 'accounts')).value;
+        let pseudo = account.name
+        let azauth = this.config.azauth;
+        let timestamp = new Date().getTime(); 
+        let skin_url = `${azauth}/api/skin-api/avatars/face/${pseudo}/?t=${timestamp}`;
+        document.querySelector(".player-head").style.backgroundImage = `url(${skin_url})`;
+    }
+    async updateAccountImage() {
+        // Récupération de l'UUID et des informations du compte dans la base de données
+        const uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        const account = (await this.database.get(uuid.selected, 'accounts')).value;
+        const azauth = this.config.azauth;
+        const timestamp = new Date().getTime();
+    
+        // Sélectionne le div avec l'UUID
+        const accountDiv = document.getElementById(account.uuid);
+    
+        if (accountDiv) {
+            // Sélectionne l'image dans ce div et met à jour la source avec un nouveau timestamp
+            const accountImage = accountDiv.querySelector('.account-image');
+            if (accountImage) {
+                accountImage.src = `${azauth}/api/skin-api/avatars/face/${account.name}/?t=${timestamp}`;
+            } else {
+                console.error('Image not found in the selected account div.');
+            }
+        } else {
+            console.error(`No div found with UUID: ${account.uuid}`);
+        }
+    }
     initAccount() {
         document.querySelector('.accounts').addEventListener('click', async(e) => {
             let uuid = e.target.id;
@@ -163,7 +206,76 @@ class Settings {
             this.database.update({ uuid: "1234", screen: { width: resolution[0], height: resolution[1] } }, 'screen');
         });
     }
-
+    async selectFile() {
+        const input = document.getElementById('fileInput');
+        input.click();
+    
+        input.onchange = async () => {
+            const file = input.files[0];
+            if (!file) return; 
+            if (file.type !== 'image/png') {
+                alert('El archivo debe ser una imagen PNG.');
+                return;
+            }
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = async () => {
+                if (img.width !== 64 || img.height !== 64) {
+                    alert('L\'La imagen debe tener 64x64 píxeles.');
+                    return;
+                }
+    
+                await this.processSkinChange.bind(this)(file);
+            };
+        };
+    }
+    async processSkinChange(file) {
+        if (!file) {
+            console.error('No se proporcionó ningún archivo');
+            return;
+        }
+    
+        const websiteUrl = this.config.azauth;   
+        let uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        let account = (await this.database.get(uuid.selected, 'accounts')).value;
+        const access_token = account.access_token;
+        const formData = new FormData();
+        formData.append('access_token', access_token);
+        formData.append('skin', file);
+        const xhr = new XMLHttpRequest();
+    
+        xhr.open('POST', `${websiteUrl}/api/skin-api/skins/update`, true);
+    
+        xhr.onload = async () => {
+            console.log(`XHR Response: ${xhr.response}`);  // Log pour la réponse
+            if (xhr.status === 200) {
+                console.log('¡Skin actualizado exitosamente!');
+                await this.initPreviewSkin();  // Appel asynchrone de la méthode
+            } else {
+                console.error(`No se pudo actualizar la Skin. Código de estado: ${xhr.status}`);
+            }
+        };
+    
+        xhr.onerror = () => {
+            console.error('Request failed');
+        };
+    
+        xhr.send(formData);
+    }
+    async initPreviewSkin() {
+        console.log('initPreviewSkin called');
+        const websiteUrl = this.config.azauth;
+        let uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        let account = (await this.database.get(uuid.selected, 'accounts')).value;
+    
+        let title = document.querySelector('.player-skin-title');
+        title.innerHTML = `Skin de ${account.name}`;
+    
+        const skin = document.querySelector('.skin-renderer-settings');
+        const cacheBuster = new Date().getTime();
+        const url = `${websiteUrl}/skin3d/3d-api/skin-api/${account.name}?_=${cacheBuster}`;
+        skin.src = url;
+    }
     async initLauncherSettings() {
         let launcherDatabase = (await this.database.get('1234', 'launcher'))?.value;
         let settingsLauncher = {
@@ -240,10 +352,11 @@ class Settings {
         document.querySelector('.home-btn-2').addEventListener('click', () => {
             document.querySelector('.default-tab-btn').click();
             changePanel("home");
+            this.refreshData()
         });
     
         document.getElementById("github").addEventListener("click", function() {
-            window.open("https://github.com/Boulldog0/Historion-Launcher", "_blank");
+            window.open("https://github.com/faqperez/CthulhuMC-Launcher", "_blank");
         });
     }
     

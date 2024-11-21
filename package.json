@@ -1,10 +1,10 @@
 {
-    "name": "historion",
-    "preductname": "Historion Launcher",
-    "version": "3.0.0",
-    "description": "Launcher de Historion PvP Faction moddé",
+    "name": "CthulhuMC",
+    "preductname": "ChtulhuMC Launcher",
+    "version": "4.0.0",
+    "description": "Launcher de CthulhuMC Survival",
     "main": "src/app.js",
-    "author": "Boulldogo/Riptiaz",
+    "author": "Vermucito",
     "settings": "https://cthulhumc.com/dev",
     "engines": {
         "node": "16.x.x"

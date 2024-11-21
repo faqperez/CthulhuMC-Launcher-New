@@ -30,6 +30,29 @@ class Launcher {
         this.getaccounts();
         this.initDiscordRPC();
     }
+    async refreshData() {
+
+      document.querySelector('.player-role').innerHTML = '';
+      document.querySelector('.player-monnaie').innerHTML = '';
+      
+      await this.initOthers();
+      await this.initPreviewSkin();
+    }
+    async initPreviewSkin() {
+        console.log('initPreviewSkin called');
+        const websiteUrl = this.config.azauth;
+        let uuid = (await this.database.get('1234', 'accounts-selected')).value;
+        let account = (await this.database.get(uuid.selected, 'accounts')).value;
+  
+        let title = document.querySelector('.player-skin-title');
+        title.innerHTML = `Skin de ${account.name}`;
+  
+        const skin = document.querySelector('.skin-renderer-settings');
+        const cacheBuster = new Date().getTime();
+        const url = `${websiteUrl}/skin3d/3d-api/skin-api/${account.name}?_=${cacheBuster}`;
+        skin.src = url;
+    }
+    
 
     initWindow(){
         window.logger = {

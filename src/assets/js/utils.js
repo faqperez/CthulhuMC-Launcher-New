@@ -53,6 +53,8 @@ function accountSelect(uuid) {
 
 function headplayer(pseudo) {
     let azauth = config.config.azauth;
-    document.querySelector(".player-head").style.backgroundImage = `url(${azauth}/api/skin-api/avatars/face/${pseudo}/)`;
-    document.querySelector(".player-head-settings").style.backgroundImage = `url(${azauth}/api/skin-api/avatars/face/${pseudo}/)`;
+    let timestamp = new Date().getTime(); 
+    let skin_url = `${azauth}/api/skin-api/avatars/face/${pseudo}/?t=${timestamp}`;
+    document.querySelector(".player-head").style.backgroundImage = `url(${skin_url})`;
+    document.querySelector(".player-head-settings").style.backgroundImage = `url(${skin_url})`;
 }

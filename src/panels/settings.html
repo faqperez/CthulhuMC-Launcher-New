@@ -11,37 +11,37 @@
       </div>
     </div>
     <div class="tabs-settings-btn">
-        <button style="margin-top: 40px;" class="icon-users tab-btn-css tab-btn active-tab-btn default-tab-btn" > Comptes</button>
-        <button class="icon-terminal tab-btn-css tab-btn"> Paramètres du jeu</button>
+        <button style="margin-top: 40px;" class="icon-users tab-btn-css tab-btn active-tab-btn default-tab-btn" > Cuentas</button>
+        <button class="icon-terminal tab-btn-css tab-btn"> Configuracion RAM</button>
         <button class="icon-wrench tab-btn-css tab-btn"> Launcher</button>
-        <button class="icon-rocket tab-btn-css tab-btn"> Mods Optionnels</button>
+        <button class="icon-rocket tab-btn-css tab-btn"> Mods Optionales</button>
+        <button class="icon-rocket tab-btn-css tab-btn"> Skin</button>
         <br>
         <br>
-        <button class="tab-btn-css-settings save-tabs-btn"> Sauvegarder</button>
+        <button class="tab-btn-css-settings save-tabs-btn"> Guardar</button>
         <button id="github" class="icon-github tab-btn-git"> GitHub</button>
     </div>
 
     <div class="tabs-settings-content active-tab-content">
         <div class="center-align">
-            <button class="add-account">Ajouter un compte</button>
+            <button class="add-account">Agregar cuenta</button>
             <div class="accounts"></div>
         </div>
     </div>
 
     <div class="tabs-settings-content">
         <div class="settings-content-scroll">
-            <div class="title-settings">Paramètres de votre RAM.</div>
+            <div class="title-settings">Configuraciones para tu RAM.</div>
             <div class="avert">
-                <div class="information">❗ Important : Allouer beaucoup de RAM a votre jeu est essentiel. En effet, celui si ne pourra pas fonctionner correctement avec moins de 3 GO de ram alloué.</div>
-            </div>
+                <div class="information">❗ Importante: Asignar mucha RAM a tu juego es fundamental. De hecho, éste no podrá funcionar correctamente con menos de 3 GB de RAM asignada.</div></div>
             <div class="java-settings">
                 <div class="information">
-                    Définition de la RAM alloué : La ram alloué est la ram donné à votre jeu lors de son lancement. Une quantité plus important augmenteras les performances de votre jeu.<br> A noter qu'il faut éviter de mettre une trop grande quantité de RAM, sinon cela peut provoquer des pertes de performances sur vos
-                    autres applications.
+                    Definición de RAM asignada: La RAM asignada es la RAM que se le da a tu juego cuando se inicia. Una cantidad mayor aumentará el rendimiento de tu juego.<br> Ten en cuenta que debes evitar colocar una cantidad demasiado grande de RAM, de lo contrario, puede causar pérdidas de rendimiento en tu
+                    otras aplicaciones.
                     <br><br>
-                    <b>- RAM Maximale :</b> Indique la quantité totale de RAM allouée à votre jeu. Il est recommandé de ne pas dépasser 50% de la quantité totale de RAM présente sur votre PC afin qu'il puisse fonctionner correctement. Si votre ordinateur
-                    a plus de 8Go de RAM, nous vous recommandons d'allouer 3Go. Si votre ordinateur a 4Go ou moins, n'allouez pas plus de 2Go.<br><br>
-                    <b>- RAM Minimale :</b> Indique la quantité minimale de RAM allouée au démarrage de votre jeu. Il est recommandé de ne pas mettre plus de 3Go pour cette valeur. La valeur typique est de 1Go.<br><br>
+                    <b>- RAM máxima:</b> Indica la cantidad total de RAM asignada a tu juego. Se recomienda no exceder el 50% de la cantidad total de RAM presente en tu PC para que pueda funcionar correctamente. Si tu computadora
+                    tiene más de 8GB de RAM, recomendamos asignarle 3GB. Si su computadora tiene 4 GB o menos, no asigne más de 2 GB.<br><br>
+                    <b>- RAM mínima:</b> Indica la cantidad mínima de RAM asignada al iniciar tu juego. Se recomienda no poner más de 3 GB para este valor. El valor típico es 1 GB.<br><br>
                 </div>
                 <div class="ram-info">
                     <div class="memory-slider" min="0.5" max="8" step="0.5">
@@ -57,8 +57,8 @@
                     </div>
                     <br>
                     <div class="ram-info-block">
-                        <br><b>Vous possédez un total de <span id="total-ram">0 Go</span> de RAM.</b><br>
-                        <b>Vous possédez un total de <span id="free-ram">0 Go</span> RAM disponible.</b>
+                        <br><b>Tienes un total de <span id="total-ram">0 GB</span> de RAM.</b><br>
+                        <b>Tienes un total de <span id="free-ram">0 GB</span> de RAM disponible.</b>
                     </div>
                 </div>
             </div>
@@ -68,20 +68,19 @@
     
     <div class="tabs-settings-content">
         <div class="center-page">
-            <div class="title-settings">Paramètre après le lancement du jeu.</div>
+            <div class="title-settings">Configuración después de iniciar el juego.</div>
             <div class="java-settings">
             <div class="information">
-                <br>
-                Explications : Ce paramétre va définir ce que le launcher va faire une fois votre jeu lancé.<br>
-                - Fermer le launcher après le lancement du jeu signifie que votre launcher sera fermé dés que le jeu se lance.<br>
-                - Fermer le jeu si le launcher est fermé signifie que si vous fermez votre launcher, votre jeu se fermera immédiatement après.<br>
-                - Garder le launcher ouvert après le lancement du jeu signifie que le launcher restera ouvert après le lancement de votre jeu.
-                <div>
+                <br>Explicaciones: Esta configuración definirá lo que hará el iniciador una vez que se inicie el juego.<br>
+                - Cerrar el iniciador después de iniciar el juego significa que se cerrará tan pronto como comience el juego.<br>
+                - Cerrar el juego si el iniciador está cerrado significa que si cierras el iniciador, tu juego se cerrará inmediatamente después.<br>
+                - Mantener el iniciador abierto después de iniciar el juego significa que permanecerá abierto después de iniciar el juego.
+            <div>
             <div class="java-settings">
                 <div class="information">
-                    <input type="checkbox" class="checkbox-settings" id="launcher-close"><label for="launcher-close"><div class="checkround"></div></label> Fermer le launcher après le lancement du jeu.</br>
-                    <input type="checkbox" class="checkbox-settings" id="launcher-close-all"><label for="launcher-close-all"><div class="checkround"></div></label> Fermer le jeu si le launcher est fermé.</br>
-                    <input type="checkbox" class="checkbox-settings" id="launcher-open"><label for="launcher-open"><div class="checkround"></div></label> Garder le launcher ouvert après le lancement du jeu.
+                    <input type="checkbox" class="checkbox-settings" id="launcher-close"><label for="launcher-close"><div class="checkround"></div></label> Cierra el iniciador después de iniciar el juego..</br>
+                    <input type="checkbox" class="checkbox-settings" id="launcher-close-all"><label for="launcher-close-all"><div class="checkround"></div></label> Cierra el juego si el lanzador está cerrado..</br>
+                    <input type="checkbox" class="checkbox-settings" id="launcher-open"><label for="launcher-open"><div class="checkround"></div></label> Mantenga el iniciador abierto después de iniciar el juego..
                 </div>
             </div>
         </div>
@@ -103,4 +102,15 @@
             </div>
         </div>
     </div>
+</div>
+<div class="tabs-settings-content">
+    <div class="player-skin-title title-settings">Personalizar Skin</div>
+    <div class="center-page">
+        <div class="skin-container-settings">
+            <iframe frameborder="0" id="skinRender2" class="skin-renderer-settings"  style="border: none; width: 319px; height: 221px;" src=""></iframe>
+            <input type="file" id="fileInput" accept="image/png" style="display: none;">  
+            <button id="uploadSkinButton" class="upload-skin-btn">Cambiar skin</button>          
+        </div>
+    </div>
+</div>
 </div>

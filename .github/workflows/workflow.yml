@@ -16,16 +16,6 @@ jobs:
 
       - name: Get version
         run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
-      
-      - name: Determine if prerelease
-        run: echo "IS_PRERELEASE=$(echo ${{ env.version }} | grep -Eq '(beta|alpha)' && echo true || echo false)" >> $GITHUB_ENV
-      
-      - name: Create Git Tag
-        run: |
-          git tag ${{ env.version }}
-          git push origin ${{ env.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
         id: create_release
@@ -36,12 +26,11 @@ jobs:
           tag_name: ${{ env.version }}
           release_name: release ${{ env.version }}
           draft: false
-          prerelease: ${{ env.IS_PRERELEASE == 'true' }}
+          prerelease: false
 
   build-launcher:
     needs: create-release
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -50,32 +39,19 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v1
 
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.x
-
-      - name: Install Dependencies
-        run: npm ci
-        shell: bash
-
       - name: Build
-        run: npm run build
-        shell: bash
-
-      - name: Upload Executable to Release (Windows)
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dist/my-program.exe
-          asset_name: my-program-windows.exe
-          asset_content_type: application/octet-stream
+        run: |
+          # Comandos para construir según el sistema operativo
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            echo "Building for Windows"
+            # Ejemplo: npm run build:windows
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            echo "Building for macOS"
+            # Ejemplo: npm run build:macos
+          else
+            echo "Building for Linux"
+            # Ejemplo: npm run build:linux
+          fi
 
       - name: Upload Executable to Release (macOS)
         if: matrix.os == 'macos-latest'
@@ -84,13 +60,4 @@ jobs:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: ./dist/my-program.dmg
           asset_name: my-program-macos.dmg
-          asset_content_type: application/octet-stream
-
-      - name: Upload Executable to Release (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./dist/my-program
-          asset_name: my-program-linux
           asset_content_type: application/octet-stream

@@ -1,7 +1,7 @@
 {
     "name": "CthulhuMC",
     "preductname": "ChtulhuMC Launcher",
-    "version": "4.0.1",
+    "version": "4.1.0",
     "description": "Launcher de CthulhuMC Survival",
     "main": "src/app.js",
     "author": "Vermucito",
